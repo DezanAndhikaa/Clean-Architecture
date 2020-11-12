@@ -10,4 +10,12 @@
       <Folder Include="Commons\Models" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Domain\Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
+    </ItemGroup>
+
 </Project>
