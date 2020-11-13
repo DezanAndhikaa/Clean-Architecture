@@ -9,5 +9,6 @@ namespace Application.Commons.Interfaces
     {
         DbSet<Car> Cars { get; set; }
         DbSet<Customer> Customers { get; set; }
+        Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken);
     }
 }

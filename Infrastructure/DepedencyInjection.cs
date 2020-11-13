@@ -1,3 +1,4 @@
+using Application.Commons.Interfaces;
 using Infrastructure.Persistences;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,8 +12,11 @@ namespace Infrastructure
             IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DbConnectionString")));
+                options.UseSqlServer(configuration.GetConnectionString("DbConnectionString"))
+                , ServiceLifetime.Transient);
 
+            services.AddTransient<IAppDbContext>(options => options.GetService<AppDbContext>());
+            
             return services;
         }
     }
