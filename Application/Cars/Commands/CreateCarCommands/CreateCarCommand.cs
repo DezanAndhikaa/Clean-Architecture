@@ -1,27 +1,31 @@
-using System.ComponentModel;
-using System.IO;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Commons.Interfaces;
 using Application.Commons.Models;
 using Domain.Entities;
+using MediatR;
 
 namespace Application.Cars.Commands.CreateCarCommands
 {
-    public class CreateCarCommand : BaseCommand
+    public class CreateCarCommand : IRequest<string>
     {
-        private Car _car;
-        public CreateCarCommand(IAppDbContext dbContext, CancellationToken cancellationToken, Car car) : base(cancellationToken, dbContext)
+        public Car car { get; set; }
+    }
+
+    public class CreateCarCommandHandler : BaseCommand, IRequestHandler<CreateCarCommand, string>
+    {
+        public CreateCarCommandHandler(IAppDbContext appDbContext) : base(appDbContext)
         {
-            _car = car;
         }
 
-        public async Task<string> AddCarCommand()
+        public async Task<string> Handle(CreateCarCommand request, CancellationToken cancellationToken)
         {
-            if (_car.CarName == null) return "Failed";
-            await DbContext.Cars.AddAsync(_car, _cancellationToken);
-            await DbContext.SaveChangesAsync(true, _cancellationToken);
-            return "Succeed";
+            request.car.IdGuid = Guid.NewGuid();
+
+            await DbContext.Cars.AddAsync(request.car, cancellationToken);
+            await DbContext.SaveChangesAsync(true, cancellationToken);
+            return "Anjing";
         }
     }
 }

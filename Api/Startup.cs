@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,15 +30,16 @@ namespace Api
             services.AddControllers();
             services.AddInfrastructure(Configuration);
             services.AddSwaggerGen();
+            services.AddApplication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // if (env.IsDevelopment())
-            // {
+            if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
-            // }
+            }
             
             app.UseSwagger();
 
